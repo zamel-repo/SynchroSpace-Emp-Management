@@ -1,0 +1,125 @@
+<div class="main-wrapper flex flex-col h-[calc(100vh-128px)] bg-[#f8f9fa] animate-slide-up">
+
+    <header class="flex items-center justify-between p-4 bg-white border-b border-[#edebe9] shrink-0">
+        <div class="flex items-center gap-4">
+            <h1 class="text-lg font-bold text-[#323130]">Tasks Explorer</h1>
+            <div class="h-6 w-[1px] bg-[#edebe9]"></div>
+            <button (click)="addColumn()" class="action-link">
+                <mat-icon class="!text-lg">add_box</mat-icon> New Bucket
+            </button>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <div class="relative">
+                <mat-icon class="absolute left-3 top-1/2 -translate-y-1/2 !text-lg text-[#605e5c]">search</mat-icon>
+                <input type="text" [ngModel]="searchQuery()" (ngModelChange)="searchQuery.set($event)"
+                    placeholder="Search tasks..."
+                    class="pl-10 pr-4 py-2 bg-[#f3f2f1] border-none rounded-sm text-sm w-64 focus:bg-white focus:ring-1 focus:ring-[#0078d4] outline-none">
+            </div>
+
+            <div class="view-toggle">
+                <button [class.active]="viewMode() === 'table'" (click)="viewMode.set('table')">
+                    <mat-icon>list</mat-icon>
+                </button>
+                <button [class.active]="viewMode() === 'kanban'" (click)="viewMode.set('kanban')">
+                    <mat-icon>view_kanban</mat-icon>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow overflow-hidden relative">
+
+        @if (viewMode() === 'kanban') {
+        <div class="absolute inset-0 flex p-6 gap-6 overflow-x-auto custom-h-scroll" cdkDropList
+            cdkDropListOrientation="horizontal" (cdkDropListDropped)="onColumnDrop($event)">
+
+            @for (col of columns(); track col.id) {
+            <div class="flex flex-col min-w-[320px] max-w-[320px] h-full" cdkDrag>
+
+                <div class="column-header shrink-0 p-3 rounded-t-md border-b-2 bg-white"
+                    [style.border-bottom-color]="col.color">
+                    <div class="flex items-center justify-between group">
+                        <div class="flex items-center gap-2 cursor-move" cdkDragHandle>
+                            <mat-icon
+                                class="!text-sm text-[#c8c6c4] group-hover:text-[#605e5c]">drag_indicator</mat-icon>
+                            <h3 class="font-bold text-[13px] text-[#323130] uppercase tracking-wider">{{ col.title }}
+                            </h3>
+                            <span class="count-pill">{{ getTasksByStatus(col.id).length }}</span>
+                        </div>
+                        <button class="hover:bg-[#f3f2f1] rounded p-1"><mat-icon
+                                class="!text-sm">more_horiz</mat-icon></button>
+                    </div>
+                </div>
+
+                <div cdkDropList [id]="col.id" [cdkDropListData]="getTasksByStatus(col.id)"
+                    (cdkDropListDropped)="onTaskDrop($event, col.id)" [cdkDropListConnectedTo]="columnIds()"
+                    class="flex-grow overflow-y-auto custom-v-scroll pt-4 px-1 space-y-3">
+
+                    @for (task of getTasksByStatus(col.id); track task.id) {
+                    <div cdkDrag [cdkDragData]="task" class="task-card group">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-[10px] font-bold uppercase" [style.color]="col.color">{{ task.priority
+                                }}</span>
+                            <mat-icon class="!text-sm text-[#c8c6c4] opacity-0 group-hover:opacity-100">edit</mat-icon>
+                        </div>
+                        <h4 class="text-[13px] font-semibold text-[#201f1e] leading-snug mb-3">{{ task.title }}</h4>
+                        <div class="flex flex-wrap gap-1 mb-4">
+                            @for (tag of task.tags; track tag) {
+                            <span class="tag-chip">{{ tag }}</span>
+                            }
+                        </div>
+                        <div class="flex items-center justify-between pt-3 border-t border-[#f3f2f1]">
+                            <span class="text-[11px] text-[#605e5c] font-medium flex items-center gap-1">
+                                <mat-icon class="!text-xs">calendar_today</mat-icon> {{ task.dueDate }}
+                            </span>
+                            <div
+                                class="w-6 h-6 rounded-full bg-[#0078d4] text-[9px] text-white flex items-center justify-center border-2 border-white shadow-sm">
+                                ME</div>
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                <button class="add-task-inline shrink-0 mt-3">
+                    <mat-icon class="!text-sm">add</mat-icon> Add task
+                </button>
+            </div>
+            }
+        </div>
+        }
+
+        @if (viewMode() === 'table') {
+        <div class="absolute inset-0 p-8 overflow-y-auto">
+            <div class="bg-white border border-[#edebe9] shadow-sm">
+                <table class="w-full text-left">
+                    <thead
+                        class="bg-[#faf9f8] border-b border-[#edebe9] text-[11px] font-bold text-[#605e5c] uppercase">
+                        <tr>
+                            <th class="p-4">Task Name</th>
+                            <th class="p-4">Project</th>
+                            <th class="p-4">Status</th>
+                            <th class="p-4">Priority</th>
+                            <th class="p-4 text-right">Due Date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-[#f3f2f1]">
+                        @for (task of filteredTasks(); track task.id) {
+                        <tr class="hover:bg-[#faf9f8] text-sm group">
+                            <td class="p-4 font-semibold text-[#323130]">{{ task.title }}</td>
+                            <td class="p-4 text-[#605e5c]">{{ task.project }}</td>
+                            <td class="p-4"><span class="px-2 py-0.5 bg-[#f3f2f1] rounded text-[11px]">{{ task.status
+                                    }}</span></td>
+                            <td class="p-4">
+                                <span [class]="'priority-dot ' + task.priority"></span> {{ task.priority }}
+                            </td>
+                            <td class="p-4 text-right text-[#605e5c]">{{ task.dueDate }}</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        }
+    </main>
+</div>

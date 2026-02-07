@@ -1,0 +1,71 @@
+<div class="chat-wrapper">
+  <aside class="chat-sidebar">
+    <div class="sidebar-header">
+      <h2>Messages</h2>
+    </div>
+
+    <div class="scrollable-list">
+      <div class="chat-item group" 
+           [class.active]="selectedChat().isGroup" 
+           (click)="selectChat('Team Group', true)">
+        <div class="avatar group-avatar"><mat-icon>groups</mat-icon></div>
+        <div class="chat-meta">
+          <span class="chat-name">Team Group</span>
+          <span class="chat-sub">General Channel</span>
+        </div>
+      </div>
+
+      <div class="list-divider">Direct Messages</div>
+
+      <div class="chat-item" 
+           *ngFor="let member of teamMembers()" 
+           [class.active]="!selectedChat().isGroup && selectedChat().name === member.name"
+           (click)="selectChat(member.name, false)">
+        <div class="avatar">{{ member.avatar }}</div>
+        <div class="chat-meta">
+          <span class="chat-name">{{ member.name }}</span>
+          <span class="chat-status" [ngClass]="member.status">{{ member.status }}</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="chat-content">
+    <header class="content-header">
+      <mat-icon *ngIf="selectedChat().isGroup">groups</mat-icon>
+      <div class="active-title">
+        <strong>{{ selectedChat().name }}</strong>
+        <small *ngIf="!selectedChat().isGroup">Private Chat</small>
+      </div>
+    </header>
+
+    <div class="messages-viewport">
+      <div class="msg-row" *ngFor="let msg of displayMessages()" [class.is-me]="msg.senderId === 'me'">
+        <div class="msg-bubble shadow-sm">
+          <span class="msg-sender" *ngIf="msg.senderId !== 'me' && selectedChat().isGroup">{{ msg.senderId }}</span>
+          <p class="msg-text">{{ msg.text }}</p>
+          <span class="msg-time">{{ msg.timestamp | date:'shortTime' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <footer class="content-footer">
+      <div class="mention-box" *ngIf="showMentionList()">
+        <div class="mention-row" *ngFor="let m of teamMembers()" (click)="insertMention(m.name)">
+          <div class="avatar-mini">{{ m.avatar }}</div> {{ m.name }}
+        </div>
+      </div>
+
+      <div class="input-area">
+        <input type="text" 
+               [placeholder]="selectedChat().isGroup ? 'Message Team (@ for tag)...' : 'Type a private message...'"
+               [(ngModel)]="newMessage" 
+               (ngModelChange)="onInputChange($event)"
+               (keyup.enter)="sendMessage()">
+        <button class="send-action" (click)="sendMessage()">
+          <mat-icon>send</mat-icon>
+        </button>
+      </div>
+    </footer>
+  </main>
+</div>

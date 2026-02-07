@@ -1,0 +1,105 @@
+.chat-wrapper {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  height: calc(100vh - 130px);
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.chat-sidebar {
+  border-right: 1px solid #edebe9;
+  display: flex;
+  flex-direction: column;
+  background: #faf9f8;
+
+  .sidebar-header {
+    padding: 20px;
+    h2 { font-size: 20px; font-weight: 600; margin: 0; color: #323130; }
+  }
+
+  .scrollable-list {
+    flex: 1; overflow-y: auto;
+  }
+}
+
+.chat-item {
+  display: flex; align-items: center; padding: 12px 20px; gap: 12px; cursor: pointer; transition: 0.2s;
+  &:hover { background: #f3f2f1; }
+  &.active { background: #ffffff; box-shadow: inset 3px 0 0 #0078d4; }
+
+  .avatar {
+    width: 36px; height: 36px; background: #0078d4; color: white; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;
+    &.group-avatar { background: #5c2d91; }
+  }
+
+  .chat-meta {
+    display: flex; flex-direction: column;
+    .chat-name { font-size: 14px; font-weight: 600; color: #323130; }
+    .chat-sub, .chat-status { font-size: 11px; color: #605e5c; }
+    .chat-status.online { color: #107c10; font-weight: 600; }
+  }
+}
+
+.list-divider {
+  padding: 20px 20px 10px; font-size: 11px; font-weight: 700; color: #a19f9d; text-transform: uppercase;
+}
+
+/* منطقة الدردشة الرئيسية */
+.chat-content {
+  display: grid;
+  grid-template-rows: 60px 1fr auto;
+  background: #f0f2f5;
+  height: 100vh;
+}
+
+.content-header {
+  background: #ffffff; padding: 0 24px; display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid #edebe9;
+  mat-icon { color: #5c2d91; }
+  .active-title {
+    display: flex; flex-direction: column;
+    strong { font-size: 15px; }
+    small { font-size: 11px; color: #605e5c; }
+  }
+}
+
+.messages-viewport {
+  padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
+}
+
+.msg-row {
+  display: flex; flex-direction: column; align-items: flex-start;
+  &.is-me {
+    align-items: flex-end;
+    .msg-bubble { background: #0078d4; color: #ffffff; border-radius: 8px 8px 2px 8px; }
+    .msg-time { color: rgba(255,255,255,0.7); }
+  }
+}
+
+.msg-bubble {
+  max-width: 60%; padding: 8px 12px; background: #ffffff; border-radius: 8px 8px 8px 2px;
+  .msg-sender { display: block; font-size: 11px; font-weight: 700; color: #0078d4; margin-bottom: 4px; }
+  .msg-text { margin: 0; font-size: 14px; line-height: 1.5; }
+  .msg-time { font-size: 10px; color: #a19f9d; margin-top: 4px; display: block; text-align: right; }
+}
+
+/* التذييل والإدخال */
+.content-footer {
+  padding: 20px; background: #ffffff; position: relative;
+  .input-area {
+    background: #f3f2f1; border-radius: 4px; display: flex; align-items: center; padding: 4px 12px;
+    input { flex: 1; border: none; background: transparent; padding: 10px; outline: none; font-size: 14px; }
+    .send-action { border: none; background: transparent; color: #0078d4; cursor: pointer; }
+  }
+}
+
+.mention-box {
+  position: absolute; bottom: 80px; left: 20px; width: 220px; background: white;
+  border-radius: 4px; box-shadow: 0 8px 16px rgba(0,0,0,0.15); border: 1px solid #edebe9;
+  .mention-row {
+    padding: 10px; display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px;
+    &:hover { background: #f3f2f1; }
+    .avatar-mini { width: 20px; height: 20px; border-radius: 50%; background: #0078d4; color: white; font-size: 9px; display: flex; align-items: center; justify-content: center; }
+  }
+}

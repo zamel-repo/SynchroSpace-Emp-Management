@@ -1,0 +1,48 @@
+<div class="activity-page animate-fade-in">
+  <header class="log-header">
+    <div class="title-area">
+      <h1>Activity Log</h1>
+      <p>Monitor all system actions and security events in real-time.</p>
+    </div>
+    <div class="log-actions">
+      <button class="ms-btn-outline"><mat-icon>file_download</mat-icon> Download Report</button>
+      <button class="ms-btn-filled"><mat-icon>refresh</mat-icon> Refresh</button>
+    </div>
+  </header>
+
+  <div class="filter-strip shadow-sm">
+    <div class="search-container">
+      <mat-icon>search</mat-icon>
+      <input type="text" placeholder="Search by action or user..." [ngModel]="searchQuery()" (ngModelChange)="searchQuery.set($event)">
+    </div>
+    <div class="pills-container">
+      <button [class.active]="selectedModule() === 'all'" (click)="selectedModule.set('all')">All Events</button>
+      <button [class.active]="selectedModule() === 'Vault'" (click)="selectedModule.set('Vault')">Vault</button>
+      <button [class.active]="selectedModule() === 'Security'" (click)="selectedModule.set('Security')">Security</button>
+      <button [class.active]="selectedModule() === 'System'" (click)="selectedModule.set('System')">System</button>
+    </div>
+  </div>
+
+  <div class="log-timeline">
+    <div class="log-row" *ngFor="let log of filteredLogs()">
+      <div class="log-time">
+        <span class="hour">{{ log.timestamp | date:'HH:mm' }}</span>
+        <span class="date">{{ log.timestamp | date:'MMM d' }}</span>
+      </div>
+      
+      <div class="log-indicator" [ngClass]="getSeverityClass(log.status)"></div>
+      
+      <div class="log-main-info shadow-sm">
+        <div class="log-header-info">
+          <span class="user-name">{{ log.user }}</span>
+          <span class="module-tag">{{ log.module }}</span>
+        </div>
+        <div class="log-action-text">{{ log.action }}</div>
+        <div class="log-footer-info">
+          <span class="ip-address"><mat-icon>lan</mat-icon> {{ log.ip }}</span>
+          <span class="id-tag">ID: {{ log.id }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

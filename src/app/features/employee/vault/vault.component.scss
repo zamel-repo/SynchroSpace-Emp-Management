@@ -1,0 +1,100 @@
+.vault-container {
+  position: relative;
+  height: 80vh;
+  background: #fdfdfd;
+  overflow: hidden;
+}
+
+/* شاشة التحقق */
+.auth-layer {
+  position: absolute; inset: 0; z-index: 999;
+  display: flex; justify-content: center; align-items: center;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(25px); // تأثير التغبيش الزجاجي القوي
+}
+
+.ms-auth-card {
+  width: 400px; background: white; padding: 40px; border-radius: 8px;
+  border: 1px solid #edebe9; text-align: center;
+  
+  .shield-header {
+    mat-icon { font-size: 48px; width: 48px; height: 48px; color: #0078d4; margin-bottom: 15px; }
+    h2 { font-size: 20px; color: #323130; margin-bottom: 5px; }
+    p { font-size: 13px; color: #605e5c; margin-bottom: 30px; }
+  }
+}
+
+.auth-toggle {
+  display: flex; background: #f3f2f1; padding: 4px; border-radius: 6px; margin-bottom: 25px;
+  button {
+    flex: 1; border: none; padding: 8px; border-radius: 4px; cursor: pointer; font-size: 13px;
+    &.active { background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-weight: 600; color: #0078d4; }
+  }
+}
+
+.input-area {
+  input {
+    width: 100%; padding: 12px; border: 1px solid #d1d1d1; border-radius: 4px;
+    text-align: center; font-size: 24px; letter-spacing: 12px; margin-bottom: 20px;
+    &:focus { border-color: #0078d4; outline: none; }
+  }
+}
+
+.primary-btn {
+  width: 100%; background: #0078d4; color: white; border: none; padding: 12px;
+  border-radius: 4px; font-weight: 600; cursor: pointer;
+  &:hover { background: #005a9e; }
+}
+
+/* البصمة */
+.fingerprint-widget {
+  position: relative; width: 80px; height: 80px; margin: 0 auto 15px;
+  mat-icon { font-size: 80px; width: 80px; height: 80px; color: #0078d4; }
+  .scanner-bar {
+    position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+    background: #0078d4; box-shadow: 0 0 10px #0078d4; animation: scanMove 2s infinite;
+  }
+}
+
+@keyframes scanMove { 0%, 100% { top: 10%; } 50% { top: 90%; } }
+
+/* المحتوى الخلفي */
+.vault-workspace {
+  padding: 30px; transition: filter 0.3s ease;
+  &.blurred-state { filter: blur(10px); pointer-events: none; }
+}
+
+.workspace-nav {
+  display: flex; align-items: center; gap: 20px; margin-bottom: 30px;
+  .search-field {
+    flex: 1; background: white; border: 1px solid #edebe9; border-radius: 4px;
+    display: flex; align-items: center; padding: 8px 15px;
+    input { border: none; outline: none; width: 100%; margin-left: 10px; }
+  }
+  .filter-pills button {
+    margin-right: 8px; padding: 6px 16px; border-radius: 20px; border: none; cursor: pointer;
+    &.active { background: #0078d4; color: white; }
+  }
+}
+
+.file-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;
+}
+
+.file-item {
+  background: white; border: 1px solid #edebe9; padding: 16px; border-radius: 4px;
+  display: flex; align-items: center; gap: 16px; cursor: pointer;
+  &:hover { border-color: #0078d4; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+  
+  .icon-box {
+    width: 40px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center;
+    &.password { background: #dff6dd; color: #107c10; }
+    &.document { background: #c7e0f4; color: #005a9e; }
+    &.key { background: #fff4ce; color: #797675; }
+  }
+
+  .file-info {
+    flex: 1; .title { display: block; font-weight: 600; font-size: 14px; }
+    .sub { font-size: 11px; color: #605e5c; }
+  }
+}

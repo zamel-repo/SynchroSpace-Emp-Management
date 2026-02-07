@@ -1,0 +1,132 @@
+.org-chart-viewport {
+  width: 100%;
+  height: 90vh;
+  background-color: #f8f9fa;
+  background-image: radial-gradient(#d1d1d1 0.75px, transparent 0.75px);
+  background-size: 30px 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-container {
+  width: 100%;
+  height: 100%;
+}
+
+.node-container {
+  padding: 10px;
+}
+
+.ms-node-card {
+  background: #ffffff;
+  border: 1px solid #edebe9;
+  border-radius: 6px;
+  padding: 12px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+  &.manager-card {
+    background: #004578;
+    border: none;
+    .display-name { color: white; }
+    .job-title { color: #c7e0f4; }
+    .avatar-content { background: #005a9e; color: white; }
+    .quick-tools mat-icon { color: #c7e0f4; }
+    .rank-badge {
+      position: absolute; top: -10px; right: 10px;
+      background: #ffb900; color: #323130;
+      font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 4px;
+    }
+  }
+
+  &.lead-card {
+    border-left: 5px solid #0078d4;
+    background: #f0f6ff;
+    .team-label { 
+      position: absolute; top: -10px; left: 10px;
+      background: #0078d4; color: white;
+      font-size: 9px; font-weight: bold; padding: 2px 8px; border-radius: 2px;
+    }
+  }
+
+  &.senior-card {
+    border: 1px solid #0078d4;
+    .display-name { color: #0078d4; }
+  }
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important;
+  }
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.status-avatar {
+  position: relative;
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  
+  .avatar-content {
+    width: 100%; height: 100%;
+    background: #f3f2f1; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; color: #0078d4;
+  }
+
+  &::after {
+    content: '';
+    position: absolute; bottom: 0; right: 0;
+    width: 12px; height: 12px;
+    border-radius: 50%; border: 2px solid white;
+  }
+  &.online::after { background: #107c10; }
+  &.meeting::after { background: #d13438; }
+  &.away::after { background: #ffaa44; }
+}
+
+.display-name { font-size: 13px; font-weight: 700; color: #201f1e; }
+.job-title { font-size: 10.5px; color: #605e5c; }
+
+.quick-tools {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  
+  mat-icon {
+    font-size: 18px; width: 18px; height: 18px;
+    color: #605e5c; cursor: pointer;
+    &:hover { color: #0078d4; }
+  }
+}
+
+.floating-controls {
+  position: fixed; bottom: 25px; right: 25px;
+  background: #2b2b2b; border-radius: 6px;
+  display: flex; align-items: center; padding: 6px;
+  
+  button {
+    background: transparent; border: none; color: white;
+    padding: 8px; cursor: pointer; display: flex;
+    &:hover { background: rgba(255,255,255,0.1); border-radius: 4px; }
+  }
+
+  .v-divider { width: 1px; height: 18px; background: rgba(255,255,255,0.2); margin: 0 10px; }
+}
+
+::ng-deep .ngx-graph .edge path {
+  stroke-linecap: round;
+}
+
+svg:foreignObject {
+  overflow: visible;
+}

@@ -1,0 +1,148 @@
+/* Core Layout */
+.learning-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+/* Microsoft Style Tabs */
+.ms-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: 1px solid #edebe9;
+  background: white;
+  color: #323130;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: all 0.2s;
+
+  mat-icon { font-size: 18px; width: 18px; height: 18px; }
+  &:hover { background: #f3f2f1; }
+  &.active {
+    background: #0078d4;
+    color: white;
+    border-color: #0078d4;
+  }
+}
+
+/* Roadmap Architecture */
+.roadmap-canvas {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0;
+}
+
+.path-backbone {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: #edebe9;
+  z-index: 1;
+}
+
+.roadmap-row {
+  display: grid;
+  grid-template-columns: 1fr 60px 1fr; // Left | Center (Node) | Right
+  width: 100%;
+  margin-bottom: 50px;
+  position: relative;
+  z-index: 2;
+  align-items: center;
+
+  &.reverse {
+    .content-side { grid-column: 1; order: 1; text-align: right; }
+    .path-node { grid-column: 2; order: 2; }
+    .empty-side { grid-column: 3; order: 3; }
+    
+    .roadmap-card {
+      margin-left: auto;
+      border-right: 3px solid #0078d4;
+      border-left: 1px solid #edebe9;
+    }
+  }
+
+  &:not(.reverse) {
+    .empty-side { grid-column: 1; }
+    .path-node { grid-column: 2; }
+    .content-side { grid-column: 3; }
+    
+    .roadmap-card {
+      border-left: 3px solid #0078d4;
+    }
+  }
+}
+
+/* The Node (Central Dot) */
+.path-node {
+  width: 40px;
+  height: 40px;
+  background: white;
+  border: 2px solid #0078d4;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  box-shadow: 0 0 0 6px #f3f2f1;
+
+  .node-index { font-weight: 800; color: #0078d4; font-size: 13px; }
+
+  &.finish-node {
+    background: #107c10;
+    border-color: #107c10;
+    color: white;
+    box-shadow: 0 0 15px rgba(16, 124, 16, 0.2);
+  }
+}
+
+/* The Card */
+.roadmap-card {
+  width: 90%;
+  background: white;
+  padding: 24px;
+  border: 1px solid #edebe9;
+  border-radius: 4px;
+  text-align: left;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-3px);
+  }
+}
+
+.card-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 8px;
+  background: #f3f2f1;
+  border-radius: 2px;
+  color: #605e5c;
+  
+  &[data-provider="YouTube"] { background: #feebeb; color: #d13438; }
+  &[data-provider="Coursera"] { background: #eff6fc; color: #0078d4; }
+}
+
+.ms-link-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0078d4;
+  text-decoration: none;
+  mat-icon { font-size: 14px; width: 14px; height: 14px; }
+  &:hover { text-decoration: underline; }
+}
+
+/* Animation */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: slideUp 0.4s ease-out; }

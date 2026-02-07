@@ -1,0 +1,78 @@
+/* معايير Fluent UI: التسطيح والوضوح */
+:host {
+  display: block;
+  background-color: #faf9f8; // خلفية رمادية فاتحة جداً مريحة للعين
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.workspace-container {
+  padding: 32px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* بطاقة مايكروسوفت القياسية */
+.ms-card {
+  background: #ffffff;
+  border: 1px solid #edebe9;
+  border-radius: 2px; // حواف حادة تقريباً كما في تطبيقات الـ Desktop
+  padding: 24px;
+  height: fit-content;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: #d2d0ce;
+  }
+}
+
+/* أزرار مايكروسوفت الرسمية */
+.ms-btn {
+  height: 32px;
+  padding: 0 16px;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+
+  &.primary {
+    background-color: #0078d4;
+    color: white;
+    &:hover { background-color: #106ebe; }
+  }
+
+  &.subtle {
+    background-color: transparent;
+    color: #323130;
+    border-color: #8a8886;
+    &:hover { background-color: #f3f2f1; }
+  }
+}
+
+/* جداول البيانات النظيفة */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  th {
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: #605e5c;
+    padding: 12px 8px;
+    border-bottom: 1px solid #edebe9;
+    text-transform: uppercase;
+  }
+
+  td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #f3f2f1;
+    font-size: 14px;
+    color: #323130;
+  }
+
+  tr:hover td { background-color: #faf9f8; }
+}

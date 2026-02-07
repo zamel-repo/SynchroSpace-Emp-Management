@@ -1,0 +1,101 @@
+<div class="flex h-screen bg-[#f3f2f1] font-sans text-[#323130] overflow-hidden">
+
+  <aside class="w-[260px] bg-white border-r border-[#e1dfdd] flex flex-col z-20">
+    <div class="h-16 flex items-center px-6 border-b border-[#f3f2f1]">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 bg-[#0067b8] flex items-center justify-center rounded-sm shadow-sm">
+          <mat-icon class="text-white !text-lg">sync</mat-icon>
+        </div>
+        <div class="flex flex-col leading-tight text-left">
+          <span class="text-[15px] font-bold text-[#201f1e] tracking-tight">SynchroSpace</span>
+          <span class="text-[10px] text-[#605e5c] font-medium uppercase tracking-wider">Employee Portal</span>
+        </div>
+      </div>
+    </div>
+
+    <nav class="flex-grow py-4 px-3 space-y-0.5 overflow-y-auto custom-scrollbar">
+      @for (item of menuItems; track item.path) {
+      <a [routerLink]="item.path" routerLinkActive="active-link" class="nav-item group">
+        <mat-icon class="nav-icon">{{ item.icon }}</mat-icon>
+        <span class="nav-text">{{ item.label }}</span>
+      </a>
+      }
+    </nav>
+
+    <div class="p-4 border-t border-[#f3f2f1] bg-[#faf9f8]">
+      <div class="flex items-center gap-3 p-2 rounded-md">
+        <div class="w-9 h-9 rounded-full bg-[#0067b8] flex items-center justify-center text-white font-semibold text-sm shadow-sm border border-white shrink-0">
+          {{ user()?.fullName ? user()?.fullName?.charAt(0) : 'U' }}
+        </div>
+        <div class="flex flex-col min-w-0 text-left">
+          <span class="text-[13px] font-bold text-[#201f1e] truncate">
+            {{ user()?.fullName || 'Loading...' }}
+          </span>
+          <span class="text-[11px] text-[#605e5c] truncate">
+            {{ user()?.position || 'Employee' }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="flex-grow flex flex-col relative overflow-hidden">
+
+    <header class="h-16 bg-white border-b border-[#e1dfdd] flex items-center justify-between px-8 z-10 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+      
+      <div class="flex items-center gap-4 text-left">
+        <button class="md:hidden p-1 hover:bg-[#f3f2f1] rounded text-[#605e5c]">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <h2 class="text-[18px] font-semibold text-[#201f1e]">
+          {{ currentPageTitle$ | async }}
+        </h2>
+      </div>
+
+      <div class="flex items-center gap-4">
+        
+        <div class="hidden xl:flex items-center bg-[#f3f2f1] border border-[#edebe9] rounded-full px-3 py-1.5 gap-2 transition-all hover:border-[#c8c6c4]">
+          <div class="relative flex h-2.5 w-2.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+          </div>
+          
+          <select class="status-select bg-transparent border-none text-[12px] font-bold text-[#323130] outline-none cursor-pointer">
+            <option value="online">Available & Clocked-in</option>
+            <option value="meeting">In a Meeting</option>
+            <option value="away">Away / Break</option>
+            <option value="vacation">On Leave / Holiday</option>
+            <option value="offline">Clocked-out (End of Shift)</option>
+          </select>
+          
+          <div class="h-4 w-[1px] bg-[#d2d0ce] mx-1"></div>
+          <span class="text-[11px] font-semibold text-[#605e5c] uppercase tracking-tighter whitespace-nowrap">
+            Shift: 08:00 AM - 05:00 PM
+          </span>
+        </div>
+
+        <div class="relative hidden lg:block">
+          <mat-icon class="absolute left-3 top-1/2 -translate-y-1/2 text-[#605e5c] !text-[18px]">search</mat-icon>
+          <input type="text" placeholder="Search tasks, docs..."
+            class="w-64 bg-[#f3f2f1] border-none rounded-sm py-1.5 pl-10 pr-4 text-[13px] focus:bg-white focus:ring-1 focus:ring-[#0067b8] transition-all outline-none text-[#323130]">
+        </div>
+
+        <div class="flex items-center gap-1 border-l border-[#f3f2f1] pl-2">
+          <button class="action-btn">
+            <mat-icon class="!text-[22px]">notifications_none</mat-icon>
+            <span class="absolute top-2 right-2.5 w-2 h-2 bg-[#d83b01] rounded-full border-2 border-white"></span>
+          </button>
+          <button class="action-btn" (click)="logout()">
+            <mat-icon class="!text-[22px]">logout</mat-icon>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-grow overflow-y-auto bg-[#f8f8f8] p-8 custom-scrollbar">
+      <div class="max-w-[1400px] mx-auto">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="vault-container">
+  
+  <div class="auth-layer" *ngIf="isLocked()">
+    <div class="ms-auth-card shadow-lg">
+      <div class="shield-header">
+        <mat-icon>security</mat-icon>
+        <h2>Synchro Vault</h2>
+        <p>Confirm identity to access encrypted storage</p>
+      </div>
+
+      <div class="auth-toggle">
+        <button [class.active]="authMode() === 'pin'" (click)="authMode.set('pin')">PIN Code</button>
+        <button [class.active]="authMode() === 'bio'" (click)="authMode.set('bio')">Biometric</button>
+      </div>
+
+      <div class="input-area" *ngIf="authMode() === 'pin'">
+        <input type="password" [(ngModel)]="pinInput" placeholder="••••" maxlength="4">
+        <button class="primary-btn" (click)="verifyAccess()">Unlock Vault</button>
+      </div>
+
+      <div class="bio-area" *ngIf="authMode() === 'bio'" (click)="verifyAccess()">
+        <div class="fingerprint-widget">
+          <mat-icon>fingerprint</mat-icon>
+          <div class="scanner-bar"></div>
+        </div>
+        <p>Touch sensor to authenticate</p>
+      </div>
+    </div>
+  </div>
+
+  <main class="vault-workspace" [class.blurred-state]="isLocked()">
+    <header class="workspace-nav">
+      <div class="search-field">
+        <mat-icon>search</mat-icon>
+        <input type="text" placeholder="Search in vault..." [ngModel]="searchQuery()" (ngModelChange)="searchQuery.set($event)">
+      </div>
+
+      <div class="filter-pills">
+        <button [class.active]="activeFilter() === 'all'" (click)="activeFilter.set('all')">All</button>
+        <button [class.active]="activeFilter() === 'password'" (click)="activeFilter.set('password')">Passwords</button>
+        <button [class.active]="activeFilter() === 'document'" (click)="activeFilter.set('document')">Docs</button>
+      </div>
+
+      <button class="lock-btn" (click)="toggleLock()">
+        <mat-icon>lock_open</mat-icon>
+      </button>
+    </header>
+
+    <div class="file-grid">
+      <div class="file-item" *ngFor="let file of filteredFiles()">
+        <div class="icon-box" [ngClass]="file.type">
+          <mat-icon>{{ file.type === 'password' ? 'key' : 'description' }}</mat-icon>
+        </div>
+        <div class="file-info">
+          <span class="title">{{ file.name }}</span>
+          <span class="sub">{{ file.date }} • {{ file.size }}</span>
+        </div>
+        <mat-icon class="context-icon">more_vert</mat-icon>
+      </div>
+    </div>
+  </main>
+</div>

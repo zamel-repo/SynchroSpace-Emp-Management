@@ -1,0 +1,157 @@
+<div class="workspace-container animate-in fade-in duration-700">
+  
+  <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 border-b border-[#edebe9] pb-6">
+    <div class="flex items-center gap-5">
+      <div class="relative">
+        <img [src]="'https://ui-avatars.com/api/?name=' + firstName() + '&background=0078d4&color=fff'" 
+             class="w-16 h-16 rounded-full border-2 border-white shadow-sm" alt="Profile">
+        <span class="absolute bottom-0 right-0 w-4 h-4 bg-[#107c10] border-2 border-white rounded-full"></span>
+      </div>
+      <div>
+        <h1 class="text-2xl font-semibold text-[#201f1e]">Welcome, {{ firstName() }}</h1>
+        <p class="text-sm text-[#605e5c]">You have <span class="font-bold text-[#0078d4]">4 tasks</span> that need your attention today.</p>
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <button class="ms-btn subtle"><mat-icon>insights</mat-icon> Analytics</button>
+      <button class="ms-btn primary"><mat-icon>add</mat-icon> New Request</button>
+    </div>
+  </header>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    @for (item of stats; track item.label) {
+      <div class="ms-card flex items-center gap-4 p-5">
+        <div class="w-12 h-12 rounded flex items-center justify-center bg-opacity-10" [style.backgroundColor]="item.color">
+          <mat-icon [style.color]="item.color">{{ item.icon }}</mat-icon>
+        </div>
+        <div>
+          <p class="text-xs text-[#605e5c] font-medium uppercase tracking-wider">{{ item.label }}</p>
+          <p class="text-xl font-bold text-[#323130]">{{ item.value }}</p>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="grid grid-cols-12 gap-8">
+    
+    <div class="col-span-12 lg:col-span-8 space-y-8">
+      
+      <section class="ms-card">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-lg font-semibold text-[#323130] flex items-center gap-2">
+            <mat-icon class="text-[#0078d4]">list_alt</mat-icon> Current Priorities
+          </h2>
+          <button class="text-xs font-semibold text-[#0078d4] hover:underline bg-transparent border-none">View All Tasks</button>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Activity / Project</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Due Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (task of upcomingTasks; track task.id) {
+                <tr>
+                  <td>
+                    <div class="flex flex-col">
+                      <span class="font-semibold">{{ task.title }}</span>
+                      <span class="text-[11px] text-[#605e5c]">{{ task.project }}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <span [class]="task.priority === 'High' ? 'text-[#d83b01] font-bold' : 'text-[#323130]'">
+                      {{ task.priority }}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="flex items-center gap-1.5">
+                      <span class="w-2 h-2 rounded-full bg-[#0078d4]"></span> Active
+                    </span>
+                  </td>
+                  <td class="text-[#605e5c] text-sm">{{ task.due }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="ms-card">
+        <h2 class="text-base font-semibold text-[#323130] mb-5">Latest Announcements</h2>
+        <div class="space-y-4">
+          @for (news of announcements; track news.title) {
+            <div class="flex items-start gap-4 p-3 hover:bg-[#faf9f8] rounded-sm cursor-pointer transition-colors">
+              <mat-icon class="text-[#8a8886]">campaign</mat-icon>
+              <div class="flex-grow">
+                <h4 class="text-sm font-semibold text-[#323130]">{{ news.title }}</h4>
+                <p class="text-xs text-[#605e5c]">{{ news.type }} • {{ news.date }}</p>
+              </div>
+              <mat-icon class="!text-sm text-[#c8c6c4]">chevron_right</mat-icon>
+            </div>
+          }
+        </div>
+      </section>
+    </div>
+
+    <div class="col-span-12 lg:col-span-4 space-y-6">
+      
+      <section class="ms-card">
+        <div class="flex items-center gap-2 mb-6 border-b border-[#f3f2f1] pb-3">
+          <mat-icon class="text-[#0078d4]">contact_page</mat-icon>
+          <h2 class="text-sm font-bold text-[#323130] uppercase">Professional Profile</h2>
+        </div>
+        <div class="space-y-4">
+          <div class="info-block">
+            <label>Full Name</label>
+            <span>{{ user()?.fullName }}</span>
+          </div>
+          <div class="info-block">
+            <label>Designation</label>
+            <span>{{ user()?.position }}</span>
+          </div>
+          <div class="info-block">
+            <label>Work Email</label>
+            <span class="text-[#0078d4]" [innerHTML]="userEmail()"></span>
+          </div>
+          <div class="info-block border-none pb-0">
+            <label>Direct Manager</label>
+            <span class="flex items-center gap-2 font-semibold">
+               Sarah Jenkins <mat-icon class="!text-[14px] text-green-600">chat</mat-icon>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <section class="ms-card">
+        <h2 class="text-sm font-bold text-[#323130] mb-4 uppercase tracking-wider">Quick Actions</h2>
+        <div class="grid grid-cols-2 gap-3">
+          @for (link of quickLinks; track link.name) {
+            <div class="p-3 border border-[#f3f2f1] rounded hover:border-[#0078d4] hover:bg-[#f0f6ff] transition-all cursor-pointer text-center group">
+              <mat-icon class="text-[#605e5c] group-hover:text-[#0078d4] mb-1">{{ link.icon }}</mat-icon>
+              <p class="text-[11px] font-semibold text-[#323130]">{{ link.name }}</p>
+            </div>
+          }
+        </div>
+      </section>
+
+      <div class="ms-card bg-[#f8fbfd] border-[#cfe4fa]">
+        <h3 class="text-sm font-semibold mb-2">Learning Progress</h3>
+        <p class="text-xs text-[#605e5c] mb-4">Complete your "Cybersecurity" module by Friday.</p>
+        <div class="w-full bg-[#edebe9] h-1.5 mb-2 rounded-full overflow-hidden">
+          <div class="bg-[#107c10] h-full" style="width: 75%"></div>
+        </div>
+        <div class="flex justify-between text-[11px] font-bold">
+          <span class="text-[#107c10]">75% Done</span>
+          <span class="text-[#0078d4] cursor-pointer hover:underline">Open Learning Hub</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

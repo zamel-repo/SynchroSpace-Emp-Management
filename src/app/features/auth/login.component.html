@@ -1,0 +1,72 @@
+<div class="min-h-screen flex flex-col justify-between bg-[#fafafa] font-sans text-[#1a1a1a]">
+  
+  <div class="flex-grow flex items-center justify-center px-4">
+    <div class="max-w-[440px] w-full bg-white px-8 py-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-300 rounded-sm">
+      
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-9 h-9 bg-primary flex items-center justify-center rounded-md shadow-sm">
+            <mat-icon class="text-white !text-xl flex items-center justify-center">sync</mat-icon>
+          </div>
+          <div class="flex flex-col leading-none">
+            <span class="text-lg font-bold tracking-tight text-gray-800">Synchro<span class="text-primary">Space</span></span>
+            <span class="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-medium mt-1">Enterprise Core</span>
+          </div>
+        </div>
+        
+        <h1 class="text-2xl font-semibold text-gray-900 tracking-tight">Sign in</h1>
+        <p class="text-[14px] text-gray-500 mt-1">Use your organizational account to proceed</p>
+      </div>
+
+      <form (ngSubmit)="onLogin()" class="space-y-5">
+        
+        <div class="flex flex-col gap-1.5">
+          <label class="text-[13px] font-medium text-gray-600 ml-0.5">Username</label>
+          <input type="text" 
+                 [(ngModel)]="username" 
+                 name="username" 
+                 placeholder="name@company.com"
+                 class="custom-input shadow-sm"
+                 required>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <div class="flex justify-between items-center">
+            <label class="text-[13px] font-medium text-gray-600 ml-0.5">Password</label>
+            <a href="#" class="text-[12px] text-primary hover:underline">Forgot?</a>
+          </div>
+          <div class="relative group">
+            <input [type]="showPassword ? 'text' : 'password'" 
+                   [(ngModel)]="password" 
+                   name="password" 
+                   placeholder="Enter your password"
+                   class="custom-input pr-12 shadow-sm"
+                   required>
+            <button type="button" 
+                    (click)="showPassword = !showPassword"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary transition-all">
+              <mat-icon class="!text-[20px] flex items-center justify-center">{{showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="pt-4">
+          <button type="submit" 
+                  class="w-full bg-primary hover:bg-primary-dark text-white py-2.5 rounded-sm text-[15px] font-medium transition-all duration-200 shadow-md shadow-primary/10 hover:shadow-lg active:scale-[0.98]">
+            Sign in
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <footer class="p-8 flex flex-col sm:flex-row justify-end items-center gap-6 text-[12px] text-gray-500 font-medium">
+    <div class="flex gap-6">
+      <a routerLink="/terms" class="hover:text-gray-700 transition-colors">Terms of use</a>
+      <a routerLink="/privacy" class="hover:text-gray-700 transition-colors">Privacy & cookies</a>
+    </div>
+    <span class="text-gray-300 hidden sm:block">|</span>
+    <span>© 2026 SynchroSpace Platform</span>
+  </footer>
+</div>

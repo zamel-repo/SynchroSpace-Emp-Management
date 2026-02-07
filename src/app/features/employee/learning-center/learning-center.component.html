@@ -1,0 +1,63 @@
+<div class="learning-container animate-fade-in">
+  
+  <header class="text-center mb-16">
+    <h1 class="text-3xl font-bold text-[#201f1e] tracking-tight">Learning Roadmaps</h1>
+    <p class="text-[#605e5c] mt-2 font-medium">Clear paths to master your technical domain.</p>
+    
+    <div class="flex justify-center gap-2 mt-8">
+      @for (roadmap of roadmaps(); track roadmap.id) {
+        <button (click)="selectRoadmap(roadmap)" 
+                class="ms-tab" 
+                [class.active]="selectedRoadmap().id === roadmap.id">
+          <mat-icon>{{ roadmap.icon }}</mat-icon>
+          {{ roadmap.specialty }}
+        </button>
+      }
+    </div>
+  </header>
+
+  <div class="roadmap-canvas">
+    <div class="path-backbone"></div>
+
+    @for (course of selectedRoadmap().courses; track course.title; let i = $index) {
+      <div class="roadmap-row" [class.reverse]="i % 2 !== 0">
+        
+        <div class="path-node shadow-sm">
+          <span class="node-index">{{ i + 1 }}</span>
+        </div>
+
+        <div class="content-side">
+          <div class="roadmap-card group shadow-sm hover:shadow-md">
+            <div class="card-tag" [attr.data-provider]="course.provider">
+              {{ course.provider }}
+            </div>
+            
+            <h3 class="text-lg font-bold text-[#323130] mt-3 group-hover:text-[#0078d4] transition-colors">
+              {{ course.title }}
+            </h3>
+            <p class="text-[13px] text-[#605e5c] mt-2 leading-relaxed">
+              {{ course.description }}
+            </p>
+
+            <div class="card-footer mt-5 pt-4 border-t border-[#f3f2f1] flex justify-between items-center">
+              <span class="text-[11px] font-bold text-[#a19f9d] flex items-center gap-1">
+                <mat-icon class="!text-sm">timer</mat-icon> {{ course.duration }}
+              </span>
+              <a [href]="course.link" target="_blank" class="ms-link-btn">
+                Launch <mat-icon>open_in_new</mat-icon>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="empty-side"></div>
+      </div>
+    }
+
+    <div class="roadmap-row finish-row">
+      <div class="path-node finish-node">
+        <mat-icon>check_circle</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>

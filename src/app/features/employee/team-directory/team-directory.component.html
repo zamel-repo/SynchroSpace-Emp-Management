@@ -1,0 +1,71 @@
+<div class="org-chart-viewport">
+  <ngx-graph
+    class="chart-container"
+    [links]="links"
+    [nodes]="nodes"
+    [curve]="curve"
+    layout="dagre"
+    [layoutSettings]="layoutSettings"
+    [draggingEnabled]="true"
+    [panningEnabled]="true"
+    [enableZoom]="true"
+    [autoZoom]="true"
+    [autoCenter]="true"
+    [zoomToFit$]="zoomToFit$"
+    [center$]="center$"
+    [update$]="update$"
+  >
+    <ng-template #linkTemplate let-link>
+      <svg:g class="edge">
+        <svg:path
+          class="line"
+          [attr.d]="link.line"
+          stroke="#0078d4"
+          stroke-width="2"
+          fill="none"
+        ></svg:path>
+      </svg:g>
+    </ng-template>
+
+    <ng-template #nodeTemplate let-node>
+      <svg:foreignObject width="240" height="120">
+        <xhtml:div class="node-container">
+          <div class="ms-node-card shadow-sm" 
+               [class.manager-card]="node.data.type === 'manager'"
+               [class.lead-card]="node.data.type === 'lead'"
+               [class.senior-card]="node.data.type === 'senior'">
+            
+            <div class="rank-badge" *ngIf="node.data.type === 'manager'">Executive</div>
+            <div class="team-label" *ngIf="node.data.team">{{ node.data.team }}</div>
+
+            <div class="card-content">
+              <div class="status-avatar" [ngClass]="node.data.status">
+                <div class="avatar-content">{{ node.label.charAt(0) }}</div>
+              </div>
+              <div class="user-info">
+                <div class="display-name">{{ node.label }}</div>
+                <div class="job-title">{{ node.data.role }}</div>
+              </div>
+            </div>
+
+            <div class="quick-tools">
+              <mat-icon>chat_bubble_outline</mat-icon>
+              <mat-icon>videocam</mat-icon>
+              <mat-icon>more_horiz</mat-icon>
+            </div>
+          </div>
+        </xhtml:div>
+      </svg:foreignObject>
+    </ng-template>
+  </ngx-graph>
+
+  <div class="floating-controls shadow-lg">
+    <button (click)="fitToScreen()" title="Fit to Screen">
+      <mat-icon>aspect_ratio</mat-icon>
+    </button>
+    <div class="v-divider"></div>
+    <button (click)="centerGraph()" title="Center Graph">
+      <mat-icon>filter_center_focus</mat-icon>
+    </button>
+  </div>
+</div>

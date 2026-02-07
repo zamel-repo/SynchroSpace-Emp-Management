@@ -1,0 +1,55 @@
+<div class="growth-container animate-fade-in">
+  <header class="growth-header">
+    <div class="welcome-text">
+      <h1>My Growth Path</h1>
+      <p>Keep pushing your limits, {{ userName }}. You've reached 85% of your monthly goal.</p>
+    </div>
+    <button class="ms-btn-filled">
+      <mat-icon>insights</mat-icon> View Full Report
+    </button>
+  </header>
+
+  <div class="stats-grid">
+    <div class="stat-card" *ngFor="let stat of stats">
+      <div class="stat-icon" [style.background-color]="stat.color + '15'" [style.color]="stat.color">
+        <mat-icon>{{ stat.icon }}</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="value">{{ stat.value }}</span>
+        <span class="label">{{ stat.label }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-split">
+    <section class="skills-section shadow-sm">
+      <h3>Core Skills</h3>
+      <div class="skill-item" *ngFor="let skill of skills()">
+        <div class="skill-head">
+          <span>{{ skill.name }}</span>
+          <span class="percentage">{{ skill.level }}%</span>
+        </div>
+        <mat-progress-bar mode="determinate" [value]="skill.level"></mat-progress-bar>
+      </div>
+    </section>
+
+    <section class="learning-section shadow-sm">
+      <h3>Active Learning Paths</h3>
+      <div class="path-card" *ngFor="let path of learningPaths()">
+        <div class="path-status" [class.completed]="path.status === 'Completed'">
+          <mat-icon>{{ path.status === 'Completed' ? 'check_circle' : 'pending' }}</mat-icon>
+        </div>
+        <div class="path-info">
+          <h4>{{ path.title }}</h4>
+          <p>{{ path.provider }}</p>
+          <div class="progress-container">
+            <div class="progress-bar" [style.width]="path.progress + '%'"></div>
+          </div>
+        </div>
+        <button class="action-btn">
+          <mat-icon>{{ path.status === 'Completed' ? 'visibility' : 'play_arrow' }}</mat-icon>
+        </button>
+      </div>
+    </section>
+  </div>
+</div>

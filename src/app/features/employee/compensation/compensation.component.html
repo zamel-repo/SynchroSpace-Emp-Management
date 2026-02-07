@@ -1,0 +1,85 @@
+<div class="comp-page">
+  <header class="ms-header">
+    <div class="title-block">
+      <h1>Financial Overview <span class="year-badge">2026</span></h1>
+      <p>Manage your earnings, leave balance, and payment history.</p>
+    </div>
+    <button class="privacy-toggle" (click)="togglePrivacy()" [class.active]="!isPrivate()">
+      <mat-icon>{{ isPrivate() ? 'visibility_off' : 'visibility' }}</mat-icon>
+      {{ isPrivate() ? 'Show Sensitive Data' : 'Hide Sensitive Data' }}
+    </button>
+  </header>
+
+  <div class="summary-grid">
+    <div class="summary-card main-salary">
+      <div class="card-icon"><mat-icon>account_balance_wallet</mat-icon></div>
+      <div class="card-content">
+        <label>Total Net Earnings (YTD)</label>
+        <h2 [class.blurred]="isPrivate()">{{ getDisplayAmount(annualSummary.totalEarnings) }}</h2>
+      </div>
+    </div>
+
+    <div class="summary-card vacations">
+      <div class="card-icon"><mat-icon>event_available</mat-icon></div>
+      <div class="card-content">
+        <label>Annual Leave Balance</label>
+        <h2>{{ annualSummary.remainingDays }} / {{ annualSummary.totalVacations }} <small>Days</small></h2>
+      </div>
+    </div>
+
+    <div class="summary-card bonuses">
+      <div class="card-icon"><mat-icon>redeem</mat-icon></div>
+      <div class="card-content">
+        <label>Rewards & Awards</label>
+        <h2>3 <small>Active Pins</small></h2>
+      </div>
+    </div>
+  </div>
+
+  <section class="history-section shadow-sm">
+    <div class="section-header">
+      <h3>Recent Transfers & Adjustments</h3>
+      <div class="actions">
+        <button class="btn-ghost"><mat-icon>file_download</mat-icon> Export PDF</button>
+      </div>
+    </div>
+
+    <table class="ms-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Category</th>
+          <th class="text-right">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tx of transactions()">
+          <td>{{ tx.date | date:'mediumDate' }}</td>
+          <td>{{ tx.description }}</td>
+          <td><span class="badge" [attr.data-type]="tx.type">{{ tx.type }}</span></td>
+          <td class="text-right amount-cell" [class.blurred]="isPrivate()">
+            {{ getDisplayAmount(tx.amount) }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="benefits-grid">
+    <div class="benefit-box">
+      <mat-icon>medical_services</mat-icon>
+      <div>
+        <h4>Medical Insurance</h4>
+        <p>Premium Family Plan - Active</p>
+      </div>
+    </div>
+    <div class="benefit-box">
+      <mat-icon>laptop_mac</mat-icon>
+      <div>
+        <h4>Tech Allowance</h4>
+        <p>$500/year for equipment</p>
+      </div>
+    </div>
+  </section>
+</div>

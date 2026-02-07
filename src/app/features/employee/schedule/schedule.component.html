@@ -1,0 +1,73 @@
+<div class="schedule-page">
+  <header class="schedule-header">
+    <div class="header-left">
+      <h1>{{ headerTitle() }}</h1>
+      <div class="nav-btns">
+        <button (click)="navigate(-1)"><mat-icon>chevron_left</mat-icon></button>
+        <button class="btn-today" (click)="goToToday()">Today</button>
+        <button (click)="navigate(1)"><mat-icon>chevron_right</mat-icon></button>
+      </div>
+    </div>
+
+    <div class="view-switcher">
+      <button [class.active]="currentView() === 'Day'" (click)="setView('Day')">Day</button>
+      <button [class.active]="currentView() === 'Work week'" (click)="setView('Work week')">Work week</button>
+      <button [class.active]="currentView() === 'Month'" (click)="setView('Month')">Month</button>
+    </div>
+
+    <button class="new-event-btn"><mat-icon>add</mat-icon> New Meeting</button>
+  </header>
+
+  <div class="calendar-container">
+    <aside class="calendar-sidebar">
+      <div class="sidebar-section">
+        <h3>My Calendars</h3>
+        <div class="cal-check"><span class="dot blue"></span> <label>Work</label></div>
+        <div class="cal-check"><span class="dot purple"></span> <label>Team</label></div>
+      </div>
+    </aside>
+
+    <main class="view-port">
+      <div class="day-view" *ngIf="currentView() === 'Day'">
+        <div class="time-row" *ngFor="let hour of workingHours">
+          <div class="time-label">{{ hour }}</div>
+          <div class="event-cell">
+            <div class="meeting-card" *ngIf="getEvent(hour)" [ngClass]="getEvent(hour)?.type">
+              <strong>{{ getEvent(hour)?.title }}</strong>
+              <span>{{ getEvent(hour)?.time }} - {{ hour.split(':')[0] }}:30</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-view" *ngIf="currentView() === 'Work week'">
+        <div class="week-grid-header">
+          <div class="time-spacer"></div>
+          <div class="day-head" *ngFor="let day of workDays">{{ day }}</div>
+        </div>
+        <div class="week-grid-body">
+          <div class="week-row" *ngFor="let hour of workingHours">
+            <div class="time-label">{{ hour }}</div>
+            <div class="day-cell" *ngFor="let day of workDays">
+              <div class="meeting-card mini" *ngIf="getEvent(hour, day)" [ngClass]="getEvent(hour, day)?.type">
+                <strong>{{ getEvent(hour, day)?.title }}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="month-view" *ngIf="currentView() === 'Month'">
+        <div class="month-grid">
+          <div class="m-head" *ngFor="let d of ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']">{{ d }}</div>
+          <div class="m-cell" *ngFor="let i of [].constructor(35); let idx = index">
+            <span class="day-num">{{ (idx % 31) + 1 }}</span>
+            <div class="month-event-dot" *ngFor="let ev of getEventsByDate((idx % 31) + 1)" [ngClass]="ev.type">
+              {{ ev.title }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

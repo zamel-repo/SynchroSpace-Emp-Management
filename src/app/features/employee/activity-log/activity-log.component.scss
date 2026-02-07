@@ -1,0 +1,84 @@
+.activity-page {
+  padding: 32px;
+  background: #faf9f8;
+  min-height: 100vh;
+}
+
+.log-header {
+  display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;
+  h1 { font-size: 24px; font-weight: 600; color: #323130; margin: 0; }
+  p { color: #605e5c; font-size: 14px; margin-top: 4px; }
+  .log-actions { display: flex; gap: 12px; }
+}
+
+/* شريط الفلاتر */
+.filter-strip {
+  background: white; border-radius: 4px; padding: 12px 20px;
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;
+  
+  .search-container {
+    display: flex; align-items: center; gap: 10px; flex: 1;
+    mat-icon { color: #0078d4; }
+    input { border: none; outline: none; width: 80%; font-size: 14px; }
+  }
+
+  .pills-container {
+    display: flex; gap: 8px;
+    button {
+      background: #f3f2f1; border: none; padding: 6px 14px; border-radius: 20px;
+      font-size: 13px; cursor: pointer; transition: 0.2s;
+      &.active { background: #0078d4; color: white; }
+    }
+  }
+}
+
+/* تصميم التايم لاين */
+.log-timeline {
+  position: relative; padding-left: 20px;
+  &::before {
+    content: ''; position: absolute; left: 88px; top: 0; bottom: 0;
+    width: 2px; background: #edebe9;
+  }
+}
+
+.log-row {
+  display: flex; align-items: center; gap: 24px; margin-bottom: 20px;
+  position: relative;
+}
+
+.log-time {
+  width: 70px; display: flex; flex-direction: column; text-align: right;  padding-right: 22px;
+  .hour { font-weight: 700; color: #323130; font-size: 14px; }
+  .date { font-size: 11px; color: #605e5c; }
+    
+}
+
+.log-indicator {
+  width: 12px; height: 12px; border-radius: 50%; background: #c8c6c4;
+  border: 2px solid white; z-index: 2;
+  &.status-success { background: #107c10; box-shadow: 0 0 0 4px #dff6dd; }
+  &.status-warning { background: #ffb900; box-shadow: 0 0 0 4px #fff4ce; }
+  &.status-error { background: #d13438; box-shadow: 0 0 0 4px #fde7e9; }
+}
+
+.log-main-info {
+  flex: 1; background: white; border-radius: 6px; padding: 16px; border: 1px solid #edebe9;
+  transition: transform 0.2s;
+  &:hover { transform: translateX(5px); border-color: #0078d4; }
+
+  .log-header-info {
+    display: flex; justify-content: space-between; margin-bottom: 8px;
+    .user-name { font-weight: 700; font-size: 13px; color: #0078d4; }
+    .module-tag { font-size: 11px; color: #605e5c; background: #f3f2f1; padding: 2px 8px; border-radius: 4px; }
+  }
+
+  .log-action-text { font-size: 15px; color: #323130; margin-bottom: 12px; }
+
+  .log-footer-info {
+    display: flex; gap: 20px; font-size: 11px; color: #a19f9d;
+    .ip-address { display: flex; align-items: center; gap: 4px; mat-icon { font-size: 14px; width: 14px; height: 14px; } }
+  }
+}
+
+.ms-btn-outline { background: white; border: 1px solid #8a8886; padding: 8px 16px; border-radius: 2px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+.ms-btn-filled { background: #0078d4; color: white; border: none; padding: 8px 16px; border-radius: 2px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
